@@ -114,6 +114,35 @@ curl -X POST http://localhost:5000/api/sql \
   -d '{"query": "SELECT * FROM Available_Inventory_Report LIMIT 5"}'
 ```
 
+## Frontend Application
+
+A Streamlit-based web interface is available in the `frontend/` directory.
+
+### Frontend Setup
+
+1. Navigate to frontend directory:
+   ```powershell
+   cd frontend
+   ```
+
+2. Create and activate virtual environment:
+   ```powershell
+   python -m venv venv
+   .\venv\Scripts\Activate
+   ```
+
+3. Install dependencies:
+   ```powershell
+   pip install -r requirements.txt
+   ```
+
+4. Run the application:
+   ```powershell
+   streamlit run app.py
+   ```
+
+5. Access at: `http://localhost:8501`
+
 ## Agent System
 
 | Agent | Purpose | Key Tables |
