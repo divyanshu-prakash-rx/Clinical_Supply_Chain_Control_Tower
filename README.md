@@ -2,6 +2,12 @@
 
 A multi-agent AI system for autonomous monitoring and risk analysis in clinical supply chains, addressing critical challenges like stock-outs during enrollment spikes and high-value drug batch expiration.
 
+
+#Demo Video
+
+https://github.com/user-attachments/assets/4484c0fa-6107-4813-b9c6-3666d98bfdd3
+
+
 ## Features
 
 - **Multi-Agent Architecture**: Specialized agents for inventory, demand, logistics, regulatory compliance, and quality assurance
