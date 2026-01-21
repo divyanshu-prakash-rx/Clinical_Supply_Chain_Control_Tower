@@ -26,8 +26,12 @@ def check_health():
     try:
         response = requests.get(f"{API_BASE_URL}/health", timeout=5)
         return response.json(), response.status_code
+    except requests.exceptions.ConnectionError:
+        return {"error": f"Cannot connect to backend at {API_BASE_URL}. Please check if the backend server is running."}, 500
+    except requests.exceptions.Timeout:
+        return {"error": f"Connection to {API_BASE_URL} timed out."}, 500
     except Exception as e:
-        return {"error": str(e)}, 500
+        return {"error": f"Error connecting to backend: {str(e)}"}, 500
 
 def execute_sql(query):
     try:
@@ -38,8 +42,12 @@ def execute_sql(query):
             timeout=30
         )
         return response.json(), response.status_code
+    except requests.exceptions.ConnectionError:
+        return {"error": f"Cannot connect to backend at {API_BASE_URL}. Please check if the backend server is running."}, 500
+    except requests.exceptions.Timeout:
+        return {"error": f"Request to {API_BASE_URL} timed out."}, 500
     except Exception as e:
-        return {"error": str(e)}, 500
+        return {"error": f"Error executing query: {str(e)}"}, 500
 
 def process_query(query):
     try:
@@ -50,8 +58,12 @@ def process_query(query):
             timeout=60
         )
         return response.json(), response.status_code
+    except requests.exceptions.ConnectionError:
+        return {"error": f"Cannot connect to backend at {API_BASE_URL}. Please check if the backend server is running."}, 500
+    except requests.exceptions.Timeout:
+        return {"error": f"Request to {API_BASE_URL} timed out. The query may be taking too long to process."}, 500
     except Exception as e:
-        return {"error": str(e)}, 500
+        return {"error": f"Error processing query: {str(e)}"}, 500
 
 if page == "System Health":
     st.header("System Health Check")
@@ -73,9 +85,10 @@ if page == "System Health":
     col1, col2, col3 = st.columns(3)
     
     with col1:
-        st.metric("API Endpoint", "localhost:5000")
+        st.metric("API Endpoint", API_BASE_URL)
     with col2:
-        st.metric("Status", "Active" if check_health()[1] == 200 else "Inactive")
+        health_check = check_health()
+        st.metric("Status", "Active" if health_check[1] == 200 else "Inactive")
     with col3:
         st.metric("Current Time", datetime.now().strftime("%H:%M:%S"))
     
@@ -415,5 +428,8 @@ if health_status == 200:
     st.sidebar.success("✅ Backend Online")
 else:
     st.sidebar.error("❌ Backend Offline")
+    if "error" in health_result:
+        st.sidebar.caption(health_result["error"])
 
+st.sidebar.markdown(f"**API:** `{API_BASE_URL}`")
 st.sidebar.markdown(f"**Time:** {datetime.now().strftime('%H:%M:%S')}")
