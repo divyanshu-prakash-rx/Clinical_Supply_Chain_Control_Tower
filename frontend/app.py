@@ -110,7 +110,6 @@ elif page == "Agent Query":
     st.divider()
     
     example_queries = [
-        "Can we extend expiry of Batch #123 for the German trial?",
         "Check inventory for LOT-45953393 in Central African Republic",
         "Check shipping timelines for Saint Kitts and Nevis",
         "Verify regulatory approval status for Germany",
