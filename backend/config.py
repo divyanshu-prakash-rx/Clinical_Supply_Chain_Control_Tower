@@ -10,13 +10,13 @@ DB_HOST = os.getenv('DB_HOST', 'localhost')
 DB_PORT = os.getenv('DB_PORT', '5432')
 
 LLM_API_KEY = os.getenv('LLM_API_KEY', '')  # HuggingFace token
-LLM_MODEL_NAME = os.getenv('LLM_MODEL_NAME', 'meta-llama/Llama-3.3-70B-Instruct:groq')
+LLM_MODEL_NAME = os.getenv('LLM_MODEL_NAME', 'meta-llama/llama-3.3-70b-instruct:free')
 
 # Initialize OpenAI client with HuggingFace router
 from openai import OpenAI
 
 LLM_CLIENT = OpenAI(
-    base_url="https://router.huggingface.co/v1",
+    base_url="https://openrouter.ai/api/v1",
     api_key=LLM_API_KEY
 ) if LLM_API_KEY else None
 
