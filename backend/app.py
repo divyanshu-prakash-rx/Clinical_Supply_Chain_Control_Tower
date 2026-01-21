@@ -9,8 +9,19 @@ from config import LLM_API_KEY, LLM_MODEL_NAME, LLM_CLIENT
 import sys
 import os
 import json
+from datetime import date, datetime
+from decimal import Decimal
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
+class DateTimeEncoder(json.JSONEncoder):
+    """Custom JSON encoder to handle date, datetime, and Decimal objects"""
+    def default(self, obj):
+        if isinstance(obj, (date, datetime)):
+            return obj.isoformat()
+        elif isinstance(obj, Decimal):
+            return float(obj)
+        return super().default(obj)
 
 def check_database_connection():
     print("Checking database connection...")
@@ -49,6 +60,7 @@ def check_llm_connection():
         return False
 
 app = Flask(__name__)
+app.json_encoder = DateTimeEncoder
 CORS(app)
 
 router = RouterAgent()
