@@ -4,7 +4,7 @@ import json
 import pandas as pd
 from datetime import datetime
 
-API_BASE_URL = "http://localhost:5000/api"
+API_BASE_URL = "https://clinical-supply-chain-control-tower.onrender.com/api"
 
 st.set_page_config(
     page_title="Clinical Supply Chain Control Tower",
